@@ -8,6 +8,16 @@ without requiring modification of the node itself. The majority of the device co
 exposed as ROS2 parameters that can be modified from a launch file. 
 
 
+## This fork/branch
+
+Line 143 of `vectornav/src/vn_sensor_msgs.cc`: when `use_enu` is set to `true`,
+`vn_sensor_msgs` node transforms any NED (North-East-Down) data to ENU
+(East-North-Up) before publishing to `/vectornav/imu` and `/vectornav/imu_uncompensated`
+topics. However, they still indicate that they using the same frame, which is
+inaccurate. This change simply adds '_transformed' to reflect the frame change
+in `header.frame_id`.
+
+
 ## QuickStart
 
 Build
