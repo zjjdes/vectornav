@@ -1,7 +1,7 @@
 vectornav:
   ros__parameters:
     port: "/dev/ttyUSB0"
-    baud: 115200
+    baud: 460800 # 921600 # 460800 # 115200
     reconnect_ms: 500
     # Reference vnproglib-1.2.0.0 headers for enum definitions
     # Async Output Type (ASCII)
@@ -26,15 +26,15 @@ vectornav:
     errorMode: 1                     # ERRORMODE_SEND
     # Binary output register 1
     BO1:
-      asyncMode: 3                   # ASYNCMODE_BOTH
-      rateDivisor: 40                # 20 Hz
-      commonField: 0x7FFF
+      asyncMode: 1                   # 0: Off; 1: Serial 1; 2: Serial 2; 3: ASYNCMODE_BOTH
+      rateDivisor: 20                # 20 Hz
+      commonField: 0x1FF8            # 0b001111111111000
       timeField: 0x0000              # TIMEGROUP_NONE
       imuField: 0x0000               # IMUGROUP_NONE
-      # set gpsField directly in source to enforce or condition
-      attitudeField: 0x0000          # ATTITUDEGROUP_NONE
-      # set insField directly in source to enforce or condition
-      gps2Field: 0x0000              # GPSGROUP_NONE
+      gpsField: 0x3F5F               # 0b11111101011111 # set gpsField directly in source code to enforce or condition
+      attitudeField: 0x1FF           # All
+      insField: 0x7EC                # 0b11111101100 # set insField directly in source code to enforce or condition
+      gps2Field: 0x75E               # 0b00011101011110
     # Binary output register 2
     BO2:
       asyncMode: 0                   # ASYNCMODE_NONE
@@ -61,7 +61,7 @@ vectornav:
 
 vn_sensor_msgs:
   ros__parameters:
-    use_enu: true
+    use_enu: true                    # if true: vn_sensor_msgs.cc transforms everything NED to ENU
     orientation_covariance: [0.01,  0.0,   0.0,
                             0.0,   0.01,  0.0,
                             0.0,   0.0,   0.01]
