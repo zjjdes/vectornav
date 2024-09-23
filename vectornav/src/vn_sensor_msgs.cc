@@ -120,6 +120,9 @@ static void convert_to_enu(
 
   msg_out.orientation = msg_in->quaternion;
   msg_out.orientation.z = -msg_in->quaternion.z;
+
+    // Reflect the change of frame in header.frame_id
+    msg_out.header.frame_id = msg_in->header.frame_id + "_transformed";
 }
 
 /** Convert VN common group data to ROS2 standard message types
